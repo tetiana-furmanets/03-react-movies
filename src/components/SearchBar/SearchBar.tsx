@@ -7,9 +7,7 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // зупиняємо стандартну поведінку форми
-    const formData = new FormData(e.currentTarget);
+  const handleAction = (formData: FormData) => {
     const query = (formData.get('query') as string).trim();
 
     if (!query) {
@@ -18,7 +16,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
     }
 
     onSubmit(query);
-    e.currentTarget.reset(); // очищає інпут після сабміту
   };
 
   return (
@@ -33,7 +30,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
           Powered by TMDB
         </a>
 
-        <form className={css.form} onSubmit={handleSubmit}>
+        <form className={css.form} action={handleAction}>
           <input
             className={css.input}
             type="text"
